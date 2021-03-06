@@ -1,0 +1,29 @@
+version: "3.7"
+
+services:
+  nexus:
+    image: sonatype/nexus3
+    container_name: nexus
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - nexus-data:/nexus-data
+    expose:
+      - 8081
+    ports:
+      - 8081:8081
+    networks:
+      - repository
+      - reverse-proxy
+    restart: unless-stopped
+
+volumes:
+  nexus-data:
+
+networks:
+  repository:
+    external: true
+  reverse-proxy:
+    external: true
